@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>devonownbey</title>
+  <meta name="description" content="random">
+
+  <!-- PROGRESSIVE ENHANCEMENT.
+       This runs before the page paints and tags <html class="js">.
+       CSS only hides the wedding details when that class is present, so if
+       JavaScript ever fails to run, nothing gets hidden and guests still see
+       the schedule, RSVP, and registry. The joke degrades; the info doesn't. -->
+  <script>document.documentElement.classList.add('js');</script>
+
+  <link rel="stylesheet" href="style.css">
+  <!-- Fetch the jumpscare during page load so it's cached and appears instantly
+       on click. Without this there's a visible delay and the timing is ruined. -->
+  <link rel="preload" as="image" href="assets/jumpscare.jpg">
+</head>
+<body>
+
+<!-- ===================================================================
+     CHAOS  --  what everyone sees first
+     =================================================================== -->
+<div id="chaos">
+
+  <header class="topbar">
+    <span class="brand">devonownbey.com</span>
+    <nav>
+      <a href="#">no hack ples</a>
+    </nav>
+  </header>
+
+  <main class="hero">
+    <h1 class="headline">hi :)</h1>
+    <p class="subline">this is a frog</p>
+
+    <div class="buttons">
+      <button class="btn" id="frog-btn">click the frog</button>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <span class="counter">hint: click the frog</span>
+  </footer>
+
+</div>
+
+
+<!-- ===================================================================
+     FORMAL  --  present in the DOM from the start, just hidden.
+     That's what makes the switch instant: no page load, no network.
+     =================================================================== -->
+<div id="formal">
+
+  <nav class="f-nav">
+    <a href="#schedule">Wedding Schedule</a>
+    <a href="#faq">FAQ</a>
+    <a href="#rsvp">RSVP</a>
+    <a href="#photos">Photos</a>
+    <!-- <a href="#registry">Registry</a> -->
+  </nav>
+
+  <header class="f-hero">
+    <h1 class="f-names">Linlee Morrison<span>&amp;</span>Devon Ownbey</h1>
+    <p class="f-date">Sunday, May 23rd, 2027</p>
+    <p class="f-place">Boettcher Mansion &middot; Golden, CO</p>
+    <p class="f-place">-</p>
+    <p class="f-place">Lookout Mountain, 900 Colorow Rd, Golden, CO 80401</p>
+  </header>
+
+  <section class="f-section" id="schedule">
+    <div class="f-wrap">
+      <h2>Schedule</h2>
+
+      <dl class="f-schedule">
+        <div class="f-row">
+          <dt>May 22 (sat)<br>Afternoon</dt>
+          <dd><strong>Welcome Party - Everyone Welcome</strong><span>Golden (TBD)</span></dd>
+        </div>
+        <!--
+        <div class="f-row">
+          <dt>May 22 (sat) <br> Evening</dt>
+          <dd><strong>Reception</strong><span>Golden (TBD)</span></dd>
+        </div>
+      -->
+        <div class="f-row">
+          <dt>May 23rd (sun)<br>5:00 pm - 10:00 pm</dt>
+          <dd><strong>Wedding (details TBD)</strong><span>Boettcher Mansion</span></dd>
+        </div>
+        <!--
+        <div class="f-row">
+          <dt>5:00 pm</dt>
+          <dd><strong>Ceremony</strong><span>Boettcher Mansion (outside)</span></dd>
+        </div>
+        
+        <div class="f-row">
+          <dt>6:00 pm</dt>
+          <dd><strong>Something Happening Probably</strong><span>Boettcher Grounds</span></dd>
+        </div>
+        <div class="f-row">
+          <dt>7:00 pm</dt>
+          <dd><strong>Dinner</strong><span>Indoor Area</span></dd>
+        </div>
+        <div class="f-row">
+          <dt>8:00 pm</dt>
+          <dd><strong>Reception</strong><span>Boettcher Grounds</span></dd>
+        </div>
+      
+        <div class="f-row">
+          <dt>10:00 pm</dt>
+          <dd><strong>go home</strong><span>(insert your home here)</span></dd>
+        </div>
+        -->
+      </dl>
+
+    </div>
+  </section>
+
+  <section class="f-section f-alt" id="faq">
+    <div class="f-wrap">
+      <h2>FAQ</h2>
+
+      <div class="f-faq">
+
+        <details>
+          <summary>Attire</summary>
+          <p>Dressy casual. Patterns and colors are welcome.</p>
+          <p><strong>Women:</strong> Sundresses are fine. Uneven ground for some heels.</p>
+          <p><strong>Men:</strong> Khakis are fine. Jackets are not required.</p>
+        </details>
+
+        <details>
+          <summary>Parking</summary>
+          <p>Parking lot at the venue.</p>
+        </details>
+
+        <details>
+          <summary>Travel</summary>
+          <p>No known bad hotels in/around Golden</p>
+        </details>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="f-section" id="rsvp">
+    <div class="f-wrap">
+      <h2>RSVP<br>(Formal Invitation to Follow)</h2>
+      <p class="f-lede">Kindly respond. But not yet. Instructions unclear.</p>
+    </div>
+  </section>
+
+  <section class="f-section f-alt" id="photos">
+
+    <div class="f-wrap-wide">
+      <h2>Photos</h2>
+
+      <div class="f-gallery">
+
+        <button class="f-tile" type="button">
+          <img src="assets/photos/cliff.jpg" alt="Linlee and Devon on a clifftop"
+               width="1600" height="1067" loading="lazy">
+        </button>
+
+        <button class="f-tile tall" type="button">
+          <img src="assets/photos/portrait.jpg" alt="Portrait of Linlee and Devon"
+               width="1067" height="1600" loading="lazy">
+        </button>
+
+        <button class="f-tile" type="button">
+          <img src="assets/photos/hiking.jpg" alt="Linlee and Devon hiking"
+               width="1600" height="1067" loading="lazy">
+        </button>
+
+        <button class="f-tile tall" type="button">
+          <img src="assets/photos/looking-over-lake.jpg" alt="Linlee and Devon looking out over a lake"
+               width="1067" height="1600" loading="lazy">
+        </button>
+
+        <button class="f-tile" type="button">
+          <img src="assets/photos/hands.jpg" alt="Linlee and Devon's hands"
+               width="1600" height="1067" loading="lazy">
+        </button>
+
+        <button class="f-tile tall" type="button">
+          <img src="assets/photos/marmot.jpg" alt="A marmot"
+               width="1067" height="1600" loading="lazy">
+        </button>
+
+      </div>
+    </div>
+  </section>
+
+  <footer class="f-footer">
+    <p>Linlee Morrison &amp; Devon Ownbey &middot; May 2027</p>
+  </footer>
+
+</div>
+
+
+<!-- Jumpscare -->
+<div id="jumpscare">
+  <img src="assets/jumpscare.jpg" alt="">
+</div>
+
+
+<div id="lightbox" aria-hidden="true">
+  <button class="lb-btn lb-close" type="button" aria-label="Close">&times;</button>
+  <button class="lb-btn lb-prev"  type="button" aria-label="Previous photo">&#8249;</button>
+  <img id="lb-img" src="" alt="">
+  <button class="lb-btn lb-next"  type="button" aria-label="Next photo">&#8250;</button>
+  <p class="lb-count"><span id="lb-index">1</span> / <span id="lb-total">6</span></p>
+</div>
+
+
+<script>
+
+  // --- Jumpscare ->
+  const btn = document.getElementById('frog-btn');
+  const jumpscare = document.getElementById('jumpscare');
+
+  btn.addEventListener('click', () => {
+    jumpscare.classList.add('active');
+  });
+
+  function dismiss() {
+    if (!jumpscare.classList.contains('active')) return;  // nothing to do
+    jumpscare.classList.remove('active');
+    document.body.classList.add('formal');
+    document.title = 'Linlee Devon Wedding';
+    window.scrollTo(0, 0); // start at the top
+  }
+
+  jumpscare.addEventListener('click', dismiss);
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') dismiss();
+  });
+
+
+  // --- Photo lightbox ---------------------------------------------------
+  const gallery  = document.querySelector('.f-gallery');
+  const lightbox = document.getElementById('lightbox');
+  const lbImg    = document.getElementById('lb-img');
+  const lbIndex  = document.getElementById('lb-index');
+
+  // Snapshot of the gallery images, in document order. Array.from turns the
+  // NodeList into a real array so we get indexOf() and .length.
+  const photos = Array.from(gallery.querySelectorAll('img'));
+  document.getElementById('lb-total').textContent = photos.length;
+
+  let current = 0;
+  let opener = null;   // remember which tile was clicked, to restore focus
+
+  function show(i) {
+    // Modulo wraps in both directions: past the end returns to 0, and
+    // -1 becomes the last photo. Adding photos.length first keeps it
+    // positive, because JS % can return a negative result.
+    current = (i + photos.length) % photos.length;
+    lbImg.src = photos[current].src;
+    lbImg.alt = photos[current].alt;
+    lbIndex.textContent = current + 1;
+  }
+
+  function openLightbox(i, tile) {
+    opener = tile;
+    show(i);
+    lightbox.classList.add('active');
+    lightbox.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('lb-open');   // locks background scrolling
+    lightbox.querySelector('.lb-close').focus();
+  }
+
+  function closeLightbox() {
+    if (!lightbox.classList.contains('active')) return;
+    lightbox.classList.remove('active');
+    lightbox.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('lb-open');
+    if (opener) opener.focus();   // put focus back where the user left it
+  }
+
+  gallery.addEventListener('click', (e) => {
+    const tile = e.target.closest('.f-tile');
+    if (!tile) return;
+    openLightbox(photos.indexOf(tile.querySelector('img')), tile);
+  });
+
+  lightbox.querySelector('.lb-close').addEventListener('click', closeLightbox);
+  lightbox.querySelector('.lb-prev').addEventListener('click', () => show(current - 1));
+  lightbox.querySelector('.lb-next').addEventListener('click', () => show(current + 1));
+
+  // Clicking the dark backdrop closes
+  lightbox.addEventListener('click', (e) => {
+    if (e.target === lightbox) closeLightbox();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (!lightbox.classList.contains('active')) return;
+    if (e.key === 'Escape')     closeLightbox();
+    if (e.key === 'ArrowLeft')  show(current - 1);
+    if (e.key === 'ArrowRight') show(current + 1);
+  });
+</script>
+
+</body>
+</html>

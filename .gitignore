@@ -1,0 +1,26 @@
+# Anything committed here is published. GitHub Pages serves every file in
+# the repo, so a stray file lands at https://devonownbey.com/<filename>.
+
+# Scratch / working notes
+notes.txt
+
+# Full-resolution originals -- resize into assets/photos/ instead.
+# Git history is permanent: a 50MB photo committed once stays in the repo
+# forever, even if you delete the file in a later commit.
+originals/
+*.CR2
+*.NEF
+*.ARW
+*.psd
+*.tif
+*.tiff
+
+# OS junk
+Thumbs.db
+ehthumbs.db
+desktop.ini
+.DS_Store
+
+# Editor
+.vscode/
+*.code-workspace

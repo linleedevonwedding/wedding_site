@@ -1,0 +1,598 @@
+/* ---------------------------------------------------------------
+   Reset-ish base
+   --------------------------------------------------------------- */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body { height: 100%; }
+
+body {
+  /* THE BIG PHOTO.
+     Drop your image at assets/background.jpg and it shows up here.
+     The linear-gradient on top is a "scrim" -- it darkens the photo so
+     white text stays readable no matter what the photo looks like.
+     The second layer (#1a1a1a) is the fallback color before the image loads. */
+  background-image:
+    linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.65)),
+    url('assets/background.jpg');
+  background-color: #1a1a1a;
+  background-size: cover;      /* fill the screen, crop overflow */
+  background-position: center; /* keep the middle of the photo in frame */
+  background-attachment: fixed;/* photo stays put while page scrolls */
+
+  color: #fff;
+  font-family: "Impact", "Haettenschweiler", "Arial Black", sans-serif;
+  text-align: center;
+}
+
+/* ---------------------------------------------------------------
+   The two halves of the site
+   --------------------------------------------------------------- */
+
+/* The flex column that used to live on <body>. Moved here so the formal
+   half can have its own layout without inheriting this one. */
+#chaos {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Scoped to .js -- the class the inline <head> script sets. If JavaScript
+   never runs, this rule never matches, nothing is hidden, and guests see
+   the wedding details as a plain page. That is the whole safety net. */
+.js #formal { display: none; }
+
+/* The switch. JS adds .formal to <body>; these two lines do the swap. */
+body.formal #chaos  { display: none; }
+body.formal #formal { display: block; }
+
+/* ---------------------------------------------------------------
+   Top bar
+   --------------------------------------------------------------- */
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem 1.5rem;
+  font-size: 0.9rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.topbar a, .brand {
+  color: #fff;
+  text-decoration: none;
+  opacity: 0.85;
+}
+
+.topbar a:hover { opacity: 1; }
+
+/* ---------------------------------------------------------------
+   Hero
+   --------------------------------------------------------------- */
+.hero {
+  flex: 1;                     /* eat all the leftover vertical space */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem 1.5rem;
+}
+
+.headline {
+  /* clamp(min, preferred, max) -- scales with the viewport but never
+     gets absurdly small on phones or absurdly huge on a 4K monitor. */
+  font-size: clamp(2.5rem, 11vw, 9rem);
+  line-height: 0.95;
+  letter-spacing: 0.02em;
+  text-shadow: 4px 4px 0 #ff0033, 8px 8px 0 rgba(0,0,0,0.4);
+}
+
+.subline {
+  margin-top: 1.25rem;
+  font-family: "Courier New", monospace;
+  font-size: clamp(1rem, 2.5vw, 1.1rem);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  opacity: 0.9;
+}
+
+/* ---------------------------------------------------------------
+   Stacked buttons
+   --------------------------------------------------------------- */
+.buttons {
+  margin-top: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  width: 100%;
+  max-width: 420px;
+}
+
+.btn {
+  display: block;
+  padding: 6rem 6%;
+  border: 2px solid #fff;
+  background: transparent;
+  cursor: pointer;
+  color: #fff;
+  text-decoration: none;
+  font-family: "Courier New", monospace;
+  font-size: 0.9rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transition: background 0.15s, transform 0.15s;
+}
+
+.btn:hover {
+  background: transparent;
+  transform: rotate(-1deg) scale(1.02);
+}
+
+/* ---------------------------------------------------------------
+   Footer
+   --------------------------------------------------------------- */
+.footer {
+  padding: 1.5rem;
+  font-family: "Courier New", monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  opacity: 0.7;
+}
+
+/* ---------------------------------------------------------------
+   Jumpscare overlay
+   --------------------------------------------------------------- */
+#jumpscare {
+  position: fixed;   /* anchored to the viewport, immune to scrolling */
+  inset: 0;          /* shorthand for top/right/bottom/left: 0 -- fills the screen */
+  z-index: 999;      /* stacks above everything else */
+  background: #000;  /* black letterboxing if the photo doesn't match the aspect ratio */
+  display: none;     /* hidden state: removed from layout entirely */
+  cursor: pointer;   /* hints that clicking dismisses it */
+}
+
+/* Shown state. No space between the selectors -- "#jumpscare.active" means the
+   element with BOTH the id and the class. A space would mean a descendant.
+   This wins over the rule above because id+class is more specific than id. */
+#jumpscare.active {
+  display: block;
+  animation: slam 0.05s;
+}
+
+#jumpscare img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;  /* fill the box, crop the overflow, never distort */
+  display: block;     /* kills the few px of gap inline images get below them */
+}
+
+@keyframes slam {
+  from { transform: scale(0.125);}
+  to   { transform: scale(1);}
+}
+
+/* ===============================================================
+   FORMAL MODE
+   A second, complete theme. Every rule below is scoped under
+   body.formal, so none of it exists until the class is flipped.
+   Note how little JS this takes: one classList.add() drives all of it.
+   =============================================================== */
+body.formal {
+  background-image: none;      /* kill the photo and its scrim */
+  background-color: #d7e2d0;
+  color: #2e2b25;
+  font-family: Georgia, "Times New Roman", serif;
+  text-align: left;
+  height: auto;                /* override html,body { height: 100% } -- */
+  min-height: 100%;            /* this page is long and needs to scroll */
+}
+
+#formal { animation: settle 0.7s ease-out; }
+
+@keyframes settle {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* --- Nav ------------------------------------------------------- */
+.f-nav {
+  position: sticky;            /* scrolls normally until it hits top: 0 */
+  top: 0;
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  gap: 2.5rem;
+  padding: 1.25rem;
+  /*background: rgba(246, 243, 237, 0.92);*/
+  background: #ebbaba;
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid #ddd7c8;
+}
+
+.f-nav a {
+  color: #5c5648;
+  text-decoration: none;
+  font-size: 1.25rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.f-nav a:hover { color: #2e2b25; }
+
+/* --- Hero ------------------------------------------------------ */
+.f-hero {
+  text-align: center;
+  padding: clamp(3rem, 10vw, 7rem) 1.5rem clamp(2rem, 6vw, 4rem);
+}
+
+.f-eyebrow, .f-place {
+  font-size: 1rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #7a7365;
+}
+
+.f-names {
+  font-size: clamp(2.4rem, 8vw, 5rem);
+  font-weight: normal;
+  line-height: 1.05;
+  margin: 1.25rem 0;
+}
+
+/* The ampersand sits on its own line, smaller and italic. */
+.f-names span {
+  display: block;
+  font-size: 0.42em;
+  font-style: italic;
+  color: #a8917c;
+  margin: 0.35rem 0;
+}
+
+.f-date {
+  font-size: clamp(1.25rem, 3vw, 1.3rem);
+  font-style: italic;
+  margin-bottom: 0.6rem;
+}
+
+/* --- Sections -------------------------------------------------- */
+.f-section { padding: clamp(2.5rem, 8vw, 5rem) 1.5rem; }
+.f-alt     { background: #dfe7d6; }   /* alternating band for rhythm */
+/*.f-alt     { background: #d8ddcf; }*/
+
+/* One shared width container. Centering via auto side margins is the
+   standard way to constrain a column of content. */
+.f-wrap {
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+.f-section h2 {
+  font-size: clamp(1.4rem, 4vw, 2rem);
+  font-weight: normal;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+/* A short decorative rule under each heading. ::after invents an element
+   in CSS rather than cluttering the HTML with an empty <div>. */
+.f-section h2::after {
+  content: "";
+  display: block;
+  width: 48px;
+  height: 1px;
+  background: #a8917c;
+  margin: 0.9rem auto 0;
+}
+
+.f-lede {
+  text-align: center;
+  color: #6b6455;
+  font-style: italic;
+  margin-bottom: 2rem;
+}
+
+/* --- Schedule -------------------------------------------------- */
+.f-row {
+  display: grid;
+  grid-template-columns: 200px 1fr;   /* time column, then details */
+  gap: 1.5rem;
+  padding: 1.1rem 0;
+  border-bottom: 1px solid #ddd7c8;
+}
+
+.f-row dt {
+  font-style: italic;
+  font-size: 1.25rem;
+  color: #7a7365;
+}
+
+.f-row dd strong {
+  display: block;
+  font-weight: normal;
+  font-size: 1.25rem;
+  letter-spacing: 0.03em;
+}
+
+.f-row dd span {
+  font-size: 1.25rem;
+  color: #7a7365;
+}
+
+.f-note {
+  margin-top: 2rem;
+  text-align: center;
+  font-size: 1.25rem;
+  color: #6b6455;
+}
+
+/* --- Photos ---------------------------------------------------- */
+/* A wider container for the grid. Same centering trick as .f-wrap. */
+.f-wrap-wide {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.f-gallery {
+  display: grid;
+  /* auto-fill + minmax = a responsive grid with NO media queries.
+     Read it as: "fit as many columns as you can, each at least 220px
+     wide, and split any leftover space evenly among them."
+     Wide screen -> 4 columns. Phone -> 1. It works itself out. */
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  /* Fixed row height, so the grid geometry is predictable and every tile
+     lines up. A landscape photo fills one row; a portrait one spans two. */
+  grid-auto-rows: 215px;
+  grid-auto-flow: dense;  /* backfill holes left by the taller tiles */
+  gap: 0.75rem;
+}
+
+/* The button is now the grid item. Strip its default chrome so it behaves
+   like the plain box it looks like. */
+.f-tile {
+  display: block;
+  padding: 0;
+  border: 0;
+  height: 100%;
+  overflow: hidden;        /* contains the hover zoom */
+  cursor: pointer;
+  background: #e4e0d3;     /* placeholder tone while the file downloads */
+}
+
+/* :focus-visible shows the ring for keyboard users but not on mouse click,
+   which is what you want -- never remove focus styling outright. */
+.f-tile:focus-visible {
+  outline: 2px solid #a8917c;
+  outline-offset: 3px;
+}
+
+.f-gallery img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;       /* fill the tile, crop overflow, never squash */
+  object-position: center; /* which part survives the crop, when there is one */
+  display: block;
+  transition: transform 0.35s ease;
+}
+
+.f-tile:hover img { transform: scale(1.05); }
+
+/* Portrait photos would be gutted by a landscape tile. class="tall" gives
+   them two rows instead, so they keep roughly their own shape. */
+.f-tile.tall { grid-row: span 2; }
+
+/* --- Lightbox -------------------------------------------------- */
+#lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 500;                    /* above the page, below the jumpscare's 999 */
+  display: none;
+  place-items: center;             /* grid shorthand for align+justify center */
+  background: rgba(22, 20, 17, 0.95);
+  padding: 4rem 1rem 3rem;
+}
+
+#lightbox.active {
+  display: grid;
+  animation: fadein 0.2s ease-out;
+}
+
+/* Stops the page behind from scrolling while the lightbox is open. */
+body.lb-open { overflow: hidden; }
+
+#lb-img {
+  max-width: min(1100px, 92vw);
+  max-height: 82vh;
+  object-fit: contain;   /* contain, not cover -- show the WHOLE photo here */
+  display: block;
+}
+
+.lb-btn {
+  position: absolute;
+  background: none;
+  border: 0;
+  color: #f6f3ed;
+  cursor: pointer;
+  opacity: 0.65;
+  line-height: 1;
+  font-family: Georgia, serif;
+  padding: 0.5rem 0.9rem;
+}
+
+.lb-btn:hover, .lb-btn:focus-visible { opacity: 1; }
+
+.lb-close { top: 1rem; right: 1.25rem; font-size: 2.4rem; }
+.lb-prev  { left: 0.5rem;  top: 50%; transform: translateY(-50%); font-size: 3.5rem; }
+.lb-next  { right: 0.5rem; top: 50%; transform: translateY(-50%); font-size: 3.5rem; }
+
+.lb-count {
+  position: absolute;
+  bottom: 1.25rem;
+  left: 0;
+  right: 0;
+  text-align: center;
+  color: #f6f3ed;
+  opacity: 0.6;
+  font-size: 0.8rem;
+  letter-spacing: 0.15em;
+}
+
+@media (max-width: 560px) {
+  .lb-prev, .lb-next { font-size: 2.4rem; }
+  .lb-prev { left: 0; }
+  .lb-next { right: 0; }
+}
+
+/* The placeholder box should span the whole grid, not sit in one cell. */
+.f-gallery .f-embed-placeholder { grid-column: 1 / -1; }
+
+/* --- FAQ ------------------------------------------------------- */
+/* Styled to echo the schedule rows: same 1px #ddd7c8 rule between items,
+   same muted text color, so the two sections read as one system. */
+.f-faq details {
+  border-bottom: 1px solid #ddd7c8;
+}
+
+.f-faq summary {
+  cursor: pointer;
+  position: relative;
+  padding: 1.1rem 2.5rem 1.1rem 0;  /* right padding clears the +/- marker */
+  font-size: 1.25rem;
+  letter-spacing: 0.01em;
+}
+
+/* Kill the browser's default disclosure triangle. Two rules are needed:
+   list-style covers Firefox, the ::-webkit- pseudo covers Chrome/Safari. */
+.f-faq summary { list-style: none; }
+.f-faq summary::-webkit-details-marker { display: none; }
+
+.f-faq summary:hover { color: #a8917c; }
+
+/* Custom marker, generated in CSS so the HTML stays clean. */
+.f-faq summary::after {
+  content: "+";
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.4rem;
+  line-height: 1;
+  color: #a8917c;
+}
+
+/* [open] is a real attribute the browser toggles for us -- no JS needed. */
+.f-faq details[open] > summary::after { content: "\2212"; }  /* minus sign */
+
+.f-faq details > p {
+  padding-right: 2.5rem;
+  color: #6b6455;
+  font-size: 0.95rem;
+  line-height: 1.65;   /* answers are prose; they need more room than headings */
+}
+
+.f-faq details > p:last-child { padding-bottom: 1.3rem; }
+.f-faq details > p + p        { margin-top: 0.7rem; }
+
+.f-faq details > p strong {
+  color: #2e2b25;
+  font-weight: normal;
+  font-style: italic;
+}
+
+/* --- RSVP embed ------------------------------------------------ */
+.f-embed {
+  width: 100%;
+  border: 1px solid #ddd7c8;
+  background: #fff;
+}
+
+.f-embed-placeholder {
+  border: 2px dashed #c4bcab;
+  padding: 2.5rem 1.5rem;
+  text-align: center;
+  color: #6b6455;
+  font-size: 0.92rem;
+}
+
+.f-embed-placeholder p + p { margin-top: 0.6rem; }
+
+.f-embed-placeholder code {
+  font-family: "Courier New", monospace;
+  background: #e4e0d3;
+  padding: 0.1em 0.35em;
+}
+
+/* --- Registry -------------------------------------------------- */
+.f-registry { list-style: none; }
+
+.f-registry li {
+  padding: 1.1rem 0;
+  border-bottom: 1px solid #ddd7c8;
+}
+
+.f-registry a {
+  font-size: 1.15rem;
+  color: #2e2b25;
+  text-decoration: none;
+  border-bottom: 1px solid #a8917c;
+}
+
+.f-registry a:hover { color: #a8917c; }
+
+.f-registry span {
+  display: block;
+  font-size: 0.88rem;
+  color: #7a7365;
+  margin-top: 0.25rem;
+}
+
+/* --- Footer ---------------------------------------------------- */
+.f-footer {
+  text-align: center;
+  padding: 3rem 1.5rem;
+  border-top: 1px solid #ddd7c8;
+  font-size: 0.85rem;
+  color: #7a7365;
+  background: #dfe7d6
+}
+
+.f-fine { margin-top: 0.5rem; font-size: 0.8rem; }
+.f-footer a { color: #7a7365; }
+
+/* --- Phones ---------------------------------------------------- */
+@media (max-width: 560px) {
+  .f-nav { gap: 1.5rem; }
+
+  /* Stack the schedule instead of squeezing two columns into 320px. */
+  .f-row {
+    grid-template-columns: 1fr;
+    gap: 0.3rem;
+  }
+}
+
+/* ---------------------------------------------------------------
+   Accessibility: honor the OS "reduce motion" setting.
+   Must be LAST in the file -- media queries add zero specificity, so
+   these only override the rules above by virtue of source order.
+   Test via DevTools: Ctrl+Shift+P -> "Emulate prefers-reduced-motion".
+   --------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  #jumpscare.active {
+    animation: none;  /* disable animation for reduced motion */
+  }
+
+  /* Fade in without the upward slide. The content still arrives, it
+     just doesn't move. */
+  #formal { animation: fadein 0.5s ease-out; }
+
+  /* No hover zoom, no lightbox fade. */
+  .f-gallery img     { transition: none; }
+  .f-tile:hover img  { transform: none; }
+  #lightbox.active   { animation: none; }
+}
+
+@keyframes fadein {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
